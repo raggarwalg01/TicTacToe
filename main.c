@@ -1,61 +1,133 @@
 #include <stdio.h>
 #include <stdlib.h>
-/*  ques is - prog is generating a (((((random)))))number from 1 - 20 and you have to guess it
-    1- you can enter number only between 1-20
-    2-  prog will indicate high or low
-    3- you have only 5 tries (in part 2)
-*/
-
-// random number is copy paste
-#include<time.h>
+int input(int x);
+char ttt[3][3]={ {'1','2','3'},
+                {'4','5','6'},
+                {'7','8','9'}};
+int result;
+char a;
+int checkstatus;
+int wincon();
 int main()
-{
-    // code for random no.
-
-    time_t t;
-    srand((unsigned)time(&t));
-
-    int result= rand()%21;
-    // main code
-    int a=0,b=20;
-    int input, maxchance=5,chanceleft;
-    printf("i have chosen a number from %i to %i which you have to guess in %i chances only.\nEnter a number from %i to %i: \n",a,b,maxchance,a,b);
-    top:
-        chanceleft=(maxchance-1);
-      while(chanceleft>=0)
-      {
-
-        scanf("%i",&input);
-        if((a<=input)&&(input<=b))
-
-                {   if(input==result)          // == is for comparison = is to asign value ---- fir se glti krdi mene
-                        {printf("Cong You have guessed it correct, the result is %i \n",result);
-                        goto end;
-                        }
-                    else if (input>result)
-                        {printf("you have entered a bigger number, try again \nYou have only %i chance left\n",chanceleft);
-                        goto chanceleftpart;
-                        }
-                    else if (input<result)
-                        {printf("you have entered a smaller number, try again \nYou have only %i chance left\n",chanceleft);
-                        goto chanceleftpart;
-                        }
-                }
-
-        else
+{   printf("P1 = X & P2 = O\n\n\n");
+    int b,c;
+     printf("\n\n\n %c  |  %c  |  %c\n_______________\n %c  |  %c  |  %c\n_______________\n %c  |  %c  |  %c\n\n",ttt[0][0],ttt[0][1],ttt[0][2],ttt[1][0],ttt[1][1],ttt[1][2],ttt[2][0],ttt[2][1],ttt[2][2]);
+Turn1:
+    scanf("%i",&b);
+    if (b>=1 && b<=9)
         {
-        chanceleft++;       // so that chance do not decrease if we enter wrong no. by mistake
-            printf("enter a valid number. You have only %i chances left\n",chanceleft);
-            goto chanceleftpart;
+        a='X';
+        input(b);
+        checkstatus = wincon();
+        if(checkstatus==1)
+            {printf("\n\n ==>>player 1 is winner");
+            return 0;
+            }
+        else if(checkstatus==0)
+            {printf("\n\nD  ==>>Draw");
+            return 0;
+            }
+        else if(checkstatus==(-1))
+            {goto Turn2;
+            }
         }
-    end:
+    else
+        { printf("enter a valid number");
+        goto Turn1;
+        }
+
+Turn2:
+    scanf("%i",&c);
+    if (c>=1 && c<=9)
        {
-        printf("Thank You");
-        return 0;
-      }
-chanceleftpart:
-        chanceleft= (chanceleft-1);
-    }
+            a ='O';
+        input(c);
+        checkstatus = wincon();
+        if(checkstatus==1)
+            {printf("\n\n ==>>player 2 is winner");
+            return 0;
+            }
+        else if(checkstatus==0)
+            {printf("\n\nD  ==>>Draw");
+            return 0;
+            }
+        else if(checkstatus==(-1))
+            {goto Turn1;
+            }
+        }
+    else
+        { printf("enter a valid number");
+        goto Turn2;
+        }
 
+}
+int input(int x)
+{
+    if (x==1 && (ttt[0][0]=='1'))
+        { ttt[0][0]=a;
+        }
+    else if (x==2 && (ttt[0][1]=='2'))
+        { ttt[0][1]=a;
+        }
+    else if (x==3 && (ttt[0][2]=='3'))
+        { ttt[0][2]=a;
+        }
+    else if (x==4 && (ttt[1][0]=='4'))
+        { ttt[1][0]=a;
+        }
+    else if (x==5 && (ttt[1][1]=='5'))
+        { ttt[1][1]=a;
+        }
+    else if (x==6 && (ttt[1][2]=='6'))
+        { ttt[1][2]=a;
+        }
+    else if (x==7 && (ttt[2][0]=='7'))
+        { ttt[2][0]=a;
+        }
+    else if (x==8 && (ttt[2][1]=='8'))
+        { ttt[2][1]=a;
+        }
+    else if (x==9 && (ttt[2][2]=='9'))
+        { ttt[2][2]=a;
+        }
+    else
+        {printf("try again");
+           //      if(a=='X')
+          //          {goto Turn1;}
+          //     else if(a=='O')
+          //        {goto Turn2;}
+           }
+    printf("\n\n\n %c  |  %c  |  %c\n_______________\n %c  |  %c  |  %c\n_______________\n %c  |  %c  |  %c\n\n",ttt[0][0],ttt[0][1],ttt[0][2],ttt[1][0],ttt[1][1],ttt[1][2],ttt[2][0],ttt[2][1],ttt[2][2]);
+}
+//*** wincon will give reult 1 for win
+//*****  0 for draw
+/// -1for continue
 
+int wincon()
+{
+    if((ttt[0][0]==ttt[0][1])&&(ttt[0][1]==ttt[0][2]))
+        {result=1;}
+    else if((ttt[1][0]==ttt[1][1])&&(ttt[1][1]==ttt[1][2]))
+        {result=1;}
+    else if((ttt[2][0]==ttt[2][1])&&(ttt[2][1]==ttt[2][2]))
+        {result=1;}
+
+    else if((ttt[0][0]==ttt[1][0])&&(ttt[1][0]==ttt[2][0]))
+        {result=1;}
+    else if((ttt[0][1]==ttt[1][1])&&(ttt[1][1]==ttt[2][1]))
+        {result=1;}
+    else if((ttt[0][2]==ttt[1][2])&&(ttt[1][2]==ttt[2][2]))
+        {result=1;}
+
+    else if((ttt[0][0]==ttt[1][1])&&(ttt[1][1]==ttt[2][2]))
+        {result=1;}
+    else if((ttt[0][2]==ttt[1][1])&&(ttt[1][1]==ttt[2][0]))
+        {result=1;}
+
+    else if((ttt[0][0]!='1')&&(ttt[0][1]!='2')&&(ttt[0][2]!='3')&&(ttt[1][0]!='4')&&(ttt[1][1]!='5')&&(ttt[1][2]!='6')&&(ttt[2][0]!='7')&&(ttt[2][1]!='8')&&(ttt[2][2]!='9'))
+        {result=0;}
+    else
+        {result=(-1); }
+
+    return result;
 }
